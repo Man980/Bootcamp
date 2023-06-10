@@ -1,5 +1,30 @@
+
+
+-- BEGINNER EXERCICES
+
+TALBE VENDEURS 
+-- Creer une table Vendeurs et entrer les donnees qui suivent
+-- Creation de la base de donnees Market
+CREATE DATABASE Market;
+--Selection de la base de donnees Market
+Use Market; 
+-- Creation de la table Vendeurs
+CREATE TABLE Vendeurs(salesman_id int, name varchar(150), city varchar(150), commission float, PRIMARY KEY(salesman_id));
+
+-- Insertion des donnees
+INSERT INTO Vendeurs VALUES(5001, "James Hoog", "New York", 0.15), 
+                                                        (5002,"Nail Knite", "Paris", 0.13),
+                                                        (5005, "Nail Knite", "London", 0.11),
+                                                        (5006, "Mc Lyon", "Paris", 0.14),
+                                                        (5007, "Paul Adam", "Rome", 0.13),
+                                                        (5003, "Lauson Hen", "San Jose", 0.12);
+
+
+
+TABLE Commandes 
+
 insert into orders values( 70008,5760,"2012-09-10",3002,5001);
-INSERT INTO orders VALUES(70010,1983.43,"2012-10-10",3004,5006);
+insert into orders values(70010,1983.43,"2012-10-10",3004,5006);
 insert into orders values( 70005,2400.6,"2012-07-27",3007,5001);
 insert into orders values( 70007,948.5,"2012-09-10",3005,5002);
 insert into orders values( 70004,110.5,"2012-08-17",3009,5003);
@@ -14,13 +39,53 @@ insert into orders values(70013,3045.6,"2012-04-25",3002,5001);
 
 
 
-/*1. From the following tables write a SQL query to find the 
+
+
+
+EXERCICES - JOINS(INNER JOIN,LEFT JOIN...)
+
+EXO1. From the following tables write a SQL query to find the 
 salesperson and customer who reside in the same city. 
-Return Salesman, cust_name and city. */
+Return Salesman, cust_name and city.
+
+        Sol
+        SELECT Salesman.Name AS Salesman, Customer.cust_name, Customer.city
+        FROM Salesman, Customer
+        WHERE Salesman.salesman_id=Customer.customer_id
+
+        OTHER WAY
+
+        SELECT Salesman.Name AS Salesman, Customer.cust_name, Customer.city
+        FROM (Salesman INNER JOIN Customer ON Salesman.City=Customer.city) 
+
+EXO2. 2. From the following tables write a SQL query to find 
+those orders where the order amount exists between 500 
+and 2000. Return ord_no, purch_amt, cust_name, city. 
+
+
+/*Sample Solution: */
+SELECT  a.ord_no,a.purch_amt,
+b.cust_name,b.city 
+FROM orders a,customer b 
+WHERE a.customer_id=b.customer_id 
+AND a.purch_amt BETWEEN 500 AND 2000;
+
+
+EXO3. From the following tables write a SQL query to find the salesperson(s) 
+and the customer(s) he represents. Return Customer Name, city, Salesman, 
+commission.
+
+
+/*Sample Solution: */
+SELECT a.cust_name AS "Customer Name", 
+a.city, b.name AS "Salesman", b.commission 
+FROM customer a 
+INNER JOIN salesman b 
+ON a.salesman_id=b.salesman_id;
 
 /*Sample table: salesman*/
 
-	salesman_id |    name    |   city   | commission 
+        salesman_id |    name    |   city   | commission 
 -------------+------------+----------+------------
         5001 | James Hoog | New York |       0.15
         5002 | Nail Knite | Paris    |       0.13
